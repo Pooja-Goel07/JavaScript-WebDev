@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TaskHub - Project Manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <header>
+        <div class="logo-container">
+            <h1 class="logo">TaskHub</h1>
+            <p class="tagline">Manage your projects with ease</p>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" class="active" data-filter="all">All Projects</a></li>
+                <li><a href="#" data-filter="in-progress">In Progress</a></li>
+                <li><a href="#" data-filter="completed">Completed</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <button id="add-project-btn" class="btn primary-btn">+ New Project</button>
+        </div>
+    </header>
+    <main>
+        <section class="dashboard">
+            <div class="dashboard-header">
+                <h2>My Projects</h2>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search projects...">
+                </div>
+            </div>
+
+            <div class="projects-container" id="projects-container">
+                <!-- Projects will be dynamically added here -->
+            </div>
+        </section>
+    </main>
 </body>
 </html>
