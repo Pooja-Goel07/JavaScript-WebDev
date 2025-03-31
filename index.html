@@ -37,5 +37,66 @@
             </div>
         </section>
     </main>
+
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <h2 id="modal-title">Add New Project</h2>
+            <form id="project-form">
+                <input type="hidden" id="project-id">
+            
+                <div class="form-group">
+                    <label>
+                        Project Name
+                        <input type="text" id="project-name" required>
+                    </label>
+                </div>
+            
+                <div class="form-group">
+                    <label>
+                        Description
+                        <textarea id="project-description" rows="3" required></textarea>
+                    </label>
+                </div>
+            
+                <div class="form-group">
+                    <label>
+                        Assigned To
+                        <input type="text" id="project-user" required>
+                    </label>
+                </div>
+            
+                <div class="form-group">
+                    <label>
+                        Status
+                        <select id="project-status">
+                            <option value="not-started">Not Started</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </label>
+                </div>
+            
+                <div class="form-group">
+                    <label>
+                        Progress (%)
+                        <input type="range" id="project-progress" min="0" max="100" value="0">
+                    </label>
+                    <span id="progress-value">0%</span>
+                </div>
+            
+                <div class="form-group">
+                    <label>
+                        Deadline
+                        <input type="date" id="project-deadline">
+                    </label>
+                </div>
+            
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Save Project</button>
+                </div>
+            </form>            
+        </div>
+    </div>
 </body>
 </html>
