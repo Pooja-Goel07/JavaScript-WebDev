@@ -370,3 +370,15 @@ main {
     gap: 1rem;
     margin-top: 1.5rem;
 }
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color:#1f2937;
+    color: #d1d5db;
+    margin-top: 2rem;
+    border-top: 1px solid #374151;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

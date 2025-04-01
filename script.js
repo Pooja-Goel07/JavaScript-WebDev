@@ -1,26 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
+    //DOM Elements
+    const addProjectBtn = document.getElementById('add-project-btn');
+    const projectModal = document.getElementById('project-modal');
+    const closeModal = document.getElementById('close-modal');
+    const projectForm = document.getElementById('project-form');
+    const projectsContainer = document.getElementById('projects-container');
+    const detailsModal = document.getElementById('details-modal');
+    const confirmModal = document.getElementById('confirm-modal');
+    const searchInput = document.getElementById('search-input');
     const progressRange = document.getElementById('project-progress');
     const progressValue = document.getElementById('progress-value');
-
-    progressRange.addEventListener('input', function () {
-        progressValue.textContent = `${this.value}%`;
-    });
-
-
-    const projectForm = document.getElementById('project-form');
-    const closeModal = document.getElementById('close-modal');
-    const projectModal = document.getElementById('project-modal');
-    const addProjectBtn = document.getElementById('add-project-btn');
-    const confirmModal = document.getElementById('confirm-modal');
-
-    addProjectBtn.addEventListener('click', openAddProjectModal);
-    function openAddProjectModal() {
-        projectForm.reset();
-        document.getElementById('modal-title').textContent = 'Add New Project';
-        document.getElementById('project-id').value = '';
-        currentProjectId = null;
-        projectModal.style.display = 'block';
-    }
+    const newNoteInput = document.getElementById('new-note');
+    const notesContainer = document.getElementById('notes-container');
 
     // Variables
     let projects = JSON.parse(localStorage.getItem('projects')) || [];
@@ -31,20 +22,35 @@ document.addEventListener('DOMContentLoaded', function () {
     renderProjects();
     initTheme();
 
+    //Event Listners
+    addProjectBtn.addEventListener('click', openAddProjectModal);
     closeModal.addEventListener('click', closeProjectModal);
 
+    progressRange.addEventListener('input', function () {
+        progressValue.textContent = `${this.value}%`;
+    });
+
+
+    
+
+    
+    function openAddProjectModal() {
+        projectForm.reset();
+        document.getElementById('modal-title').textContent = 'Add New Project';
+        document.getElementById('project-id').value = '';
+        currentProjectId = null;
+        projectModal.style.display = 'block';
+    }
+
+    
+
+    
+
     function closeProjectModal() {
         projectModal.style.display = 'none';
     }
 
-    const projectsContainer = document.getElementById('projects-container');
-    const deleteProjectBtn = document.getElementById('delete-project');
-
-
-
-    function closeProjectModal() {
-        projectModal.style.display = 'none';
-    }
+    
 
     function updateProgressValue() {
         progressValue.textContent = `${progressRange.value}%`;
@@ -124,6 +130,58 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
             return;
         }
+        
+
+        function renderNotes(notes) {
+            notesContainer.innerHTML = '';
+            
+            if (!notes || notes.length === 0) {
+                notesContainer.innerHTML = '<p>No notes yet. Add a note to get started.</p>';
+                return;
+            }
+            
+            notes.forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'note';
+                
+                const date = new Date(note.date).toLocaleString();
+                
+                noteElement.innerHTML = `
+                    <div class="note-date">${date}</div>
+                    <p>${note.text}</p>
+                `;
+                
+                notesContainer.appendChild(noteElement);
+            });
+        }
+        function addNote() {
+            const noteText = newNoteInput.value.trim();
+            if (!noteText) return;
+            
+            const project = projects.find(p => p.id === currentProjectId);
+            if (!project) return;
+            
+            if (!project.notes) {
+                project.notes = [];
+            }
+            
+            project.notes.push({
+                id: Date.now().toString(),
+                text: noteText,
+                date: new Date().toISOString()
+            });
+            
+            saveProjects();
+            renderNotes(project.notes);
+            newNoteInput.value = '';
+        }
+    
+
+        function closeDetailsModal() {
+            detailsModal.style.display = 'none';
+            currentProjectId = null;
+        }
+    
 
         filteredProjects.forEach(project => {
             const card = document.createElement('div');
@@ -162,6 +220,11 @@ document.addEventListener('DOMContentLoaded', function () {
             projectsContainer.appendChild(card);
         });
     }
+
+    function saveProjects() {
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }
+
     // Close modals when clicking outside
     window.addEventListener('click', function (event) {
         if (event.target === projectModal) {
